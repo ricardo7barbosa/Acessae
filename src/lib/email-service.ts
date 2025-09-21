@@ -31,14 +31,13 @@ class EmailService {
   private transporter: nodemailer.Transporter;
   private templatesPath: string;
 
- constructor() {
-    // Configurar transporter do nodemailer para usar Mailtrap (ou qualquer servidor SMTP)
+  constructor() {
+    // Configurar transporter do nodemailer
     this.transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_SERVER_HOST,
-      port: Number(process.env.EMAIL_SERVER_PORT), // Convertemos para número
+      service: "gmail",
       auth: {
-        user: process.env.EMAIL_SERVER_USER,
-        pass: process.env.EMAIL_SERVER_PASSWORD,
+        user: process.env.GMAIL_EMAIL,
+        pass: process.env.GMAIL_PASSWORD,
       },
     });
 
@@ -81,7 +80,7 @@ class EmailService {
       );
 
       await this.transporter.sendMail({
-        from: process.env.EMAIL_FROM,
+        from: process.env.GMAIL_EMAIL,
         to: config.to,
         subject: config.subject,
         html: htmlContent,
